@@ -8,6 +8,12 @@
     <description><![CDATA[
       Some great inspections, quickfixes, tools. Well, only inspections at the moment.
 
+      <h3>Java inspections</h3>
+      <ul>
+        <li>BigDecimal instantiation can be replaced with constant <em>by <a href="http://github.com/stokito/">stokito</a></em></li>
+        <li>BigDecimal.compareTo(ZERO) can be replaced with signum() <em>by <a href="http://github.com/stokito/">stokito</a></em></li>
+      </ul>
+
       <h3>UAST (Java + Kotlin) inspections</h3>
       <ul>
         <li>Atomic can be replaced with volatile</li>
@@ -28,6 +34,8 @@
       <ul>
         <li>&lt;include layout="?themeAttribute"&gt;</li>
       </ul>
+
+      <a href="https://github.com/Miha-x64/Mikes_IDEA_extensions">Source code on GitHub</a>
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
@@ -50,16 +58,9 @@
             implementationClass="net.aquadc.mike.plugin.inspection.KtIdIsJavaKeywordInspection" />
 
         <localInspection
-            language="XML"
-            shortName="androidIncludeLayoutByThemeAttr" displayName="Using &lt;include&gt; with layout from theme attribute"
-            groupPath="Android" groupName=""
-            enabledByDefault="true" level="ERROR"
-            implementationClass="net.aquadc.mike.plugin.inspection.AndroidIncludeLayoutByThemeAttrInspection" />
-
-        <localInspection
             language="UAST"
             shortName="atomicAsVolatile" displayName="Atomic can be replaced with volatile"
-            groupPath="JVM languages" groupName=""
+            groupName="JVM languages"
             enabledByDefault="true" level="WARNING"
             implementationClass="net.aquadc.mike.plugin.inspection.AtomicAsVolatileInspection" />
 
@@ -84,11 +85,25 @@
             enabledByDefault="true" level="WARNING"
             implementationClass="net.aquadc.mike.plugin.inspection.KtInlineFunctionLeaksAnonymousDeclaration" />
 
+        <localInspection
+            language="JAVA"
+            shortName="BigDecimalConstant" displayName="BigDecimal instantiation can be replaced with constant"
+            groupPath="Java" groupName="Performance"
+            enabledByDefault="true" cleanupTool="true" level="WARNING"
+            implementationClass="net.aquadc.mike.plugin.inspection.bigdecimal.BigDecimalConstantInspection"/>
+
+        <localInspection
+            language="JAVA"
+            shortName="BigDecimalSignum" displayName="BigDecimal.compareTo(ZERO) can be replaced with signum()"
+            groupPath="Java" groupName="Performance"
+            enabledByDefault="true" cleanupTool="true" level="WARNING"
+            implementationClass="net.aquadc.mike.plugin.inspection.bigdecimal.BigDecimalSignumInspection"/>
     </extensions>
 
     <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.kotlin</depends>
-    <depends>org.jetbrains.android</depends>
+    <depends optional="true" config-file="withAndroid.xml">org.jetbrains.android</depends>
 
     <actions>
     </actions>
